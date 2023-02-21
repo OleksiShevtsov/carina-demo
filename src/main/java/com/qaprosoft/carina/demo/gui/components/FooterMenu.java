@@ -15,6 +15,8 @@
  */
 package com.qaprosoft.carina.demo.gui.components;
 
+import com.qaprosoft.carina.demo.gui.enums.Footer;
+import com.qaprosoft.carina.demo.gui.pages.NetworkCoverage;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
@@ -25,8 +27,13 @@ import com.qaprosoft.carina.demo.gui.pages.CompareModelsPage;
 import com.qaprosoft.carina.demo.gui.pages.HomePage;
 import com.qaprosoft.carina.demo.gui.pages.NewsPage;
 
+import java.util.List;
+
 public class FooterMenu extends AbstractUIObject {
-    @FindBy(linkText = "Home")
+    @FindBy(xpath = "//div[@id='footmenu']//a[@href]")
+    private List<ExtendedWebElement> footerMenuButtons;
+
+    @FindBy(xpath = "//*[@id='footmenu']/p[1]/a[1]")
     private ExtendedWebElement homeLink;
 
     @FindBy(xpath = "//div[@class='footer-inner']//a[contains(text(),'Compare')]")
@@ -34,6 +41,12 @@ public class FooterMenu extends AbstractUIObject {
     
     @FindBy(linkText = "News")
     private ExtendedWebElement newsLink;
+
+    @FindBy(xpath = "//*[@id=\"footmenu\"]/p[1]/a[3]")
+    private ExtendedWebElement reviewsLink;
+
+    @FindBy(xpath = "(//a[text()='Coverage'])[2]")
+    private ExtendedWebElement networkCoverageButton;
 
     public FooterMenu(WebDriver driver, SearchContext searchContext) {
         super(driver, searchContext);
@@ -53,4 +66,14 @@ public class FooterMenu extends AbstractUIObject {
         newsLink.click();
         return new NewsPage(driver);
     }
+
+    public NetworkCoverage clickCoverageButton() {
+        networkCoverageButton.click();
+        return new NetworkCoverage(driver);
+    }
+
+    public void clickFooterButton(Footer footerButton) {
+        footerMenuButtons.get(footerButton.getFooterElement()).click();
+    }
+
 }
